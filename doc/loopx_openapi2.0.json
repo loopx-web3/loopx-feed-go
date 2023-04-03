@@ -1,0 +1,1089 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "LoopX Backend",
+    "description": "LoopX Backend For user center, Feed and Discover",
+    "version": "v1.0.0"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/user/avatar": {
+      "post": {
+        "summary": "user info avator upload",
+        "operationId": "avatar",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UserInfoReply"
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/v1/user/captcha": {
+      "get": {
+        "summary": "user wallet cpatcha, return the sign info and nonce",
+        "operationId": "captcha",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CaptchaReply"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "walletAddress",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ts",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/v1/user/login": {
+      "post": {
+        "summary": "user register with wallet, email or social media",
+        "operationId": "Login",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UserInfoReply"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserLoginReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/v1/user/logout": {
+      "get": {
+        "summary": "user logout",
+        "operationId": "logout",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ReplyStatus"
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/v1/user/me": {
+      "get": {
+        "summary": "Returns information about an authorized user.",
+        "operationId": "me",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UserInfoReply"
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/v1/user/notification": {
+      "get": {
+        "summary": "Return the authenticating user's notication list",
+        "operationId": "notification",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/NotificationReply"
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/v1/user/settings": {
+      "post": {
+        "summary": "Updates the authenticating user's settings",
+        "operationId": "settings",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UserInfoReply"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserSettingReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/v1/user/{user_id}/follower": {
+      "post": {
+        "summary": "Returns a list of users who are followers of the specified user",
+        "operationId": "follower",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UserFollowerReply"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserFollowerReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/v1/user/{user_id}/following": {
+      "post": {
+        "summary": "Returns a list of users the specified user ID is following",
+        "operationId": "following",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UserFollowingReply"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserFollowingReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/v1/user/{walletAddress}": {
+      "get": {
+        "summary": "Returns a specified wallet user's public information",
+        "operationId": "account",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UserInfoReply"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "walletAddress",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "api/v1/comment/{comment_id}": {
+      "delete": {
+        "summary": "Allows a user ID to delete a comment",
+        "operationId": "delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ReplyStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "comment_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommentDeleteReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ]
+      }
+    },
+    "api/v1/comment/{topic_id}/{topic_type}": {
+      "get": {
+        "summary": "Returns comment list the specified user ID",
+        "operationId": "read",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CommentListReply"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "topic_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "topic_type",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "comment"
+        ]
+      },
+      "post": {
+        "summary": "Allows a user ID to comment a contract, token or feed",
+        "operationId": "update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ReplyStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "topic_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "topic_type",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommentListReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ]
+      }
+    },
+    "api/v1/feeds/list": {
+      "get": {
+        "summary": "Returns list of feeds of a specified user ID in a period",
+        "operationId": "list",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FeedsListReply"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "period",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "feeds"
+        ]
+      }
+    },
+    "api/v1/search": {
+      "get": {
+        "summary": "Returns search info",
+        "operationId": "search",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/SearchReply"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "contract",
+              "token",
+              "address",
+              "all"
+            ],
+            "default": "all"
+          }
+        ],
+        "tags": [
+          "feeds"
+        ]
+      }
+    },
+    "api/v1/user/like/{id}/{type}": {
+      "get": {
+        "summary": "Return information about a User’s liking.",
+        "operationId": "read",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LikeReply"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "like"
+        ]
+      },
+      "delete": {
+        "summary": "Allows a user ID to like a contract, token or feed",
+        "operationId": "delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ReplyStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LikeReq"
+            }
+          }
+        ],
+        "tags": [
+          "like"
+        ]
+      },
+      "post": {
+        "summary": "Allows a user ID to like a contract, token or feed",
+        "operationId": "update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ReplyStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LikeReq"
+            }
+          }
+        ],
+        "tags": [
+          "like"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "AccountReq": {
+      "type": "object",
+      "title": "AccountReq"
+    },
+    "CaptchaReply": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "nonce": {
+          "type": "string"
+        }
+      },
+      "title": "CaptchaReply",
+      "required": [
+        "nonce"
+      ]
+    },
+    "CaptchaReq": {
+      "type": "object",
+      "properties": {
+        "walletAddress": {
+          "type": "string"
+        },
+        "ts": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "CaptchaReq",
+      "required": [
+        "walletAddress",
+        "ts"
+      ]
+    },
+    "CommentDeleteReq": {
+      "type": "object",
+      "title": "CommentDeleteReq"
+    },
+    "CommentInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "topic_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "topic_type": {
+          "type": "integer",
+          "format": "int64",
+          "enum": [
+            "contract",
+            "token",
+            "feed",
+            "all"
+          ]
+        },
+        "reply_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "reply_type": {
+          "type": "integer",
+          "format": "int64",
+          "enum": [
+            "comment",
+            "reply"
+          ]
+        },
+        "from_user": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "like_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "date": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "CommentInfo",
+      "required": [
+        "id",
+        "topic_id",
+        "topic_type",
+        "reply_id",
+        "reply_type",
+        "from_user",
+        "content",
+        "like_count",
+        "date"
+      ]
+    },
+    "CommentListReply": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "comments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CommentInfo"
+          }
+        }
+      },
+      "title": "CommentListReply",
+      "required": [
+        "comments"
+      ]
+    },
+    "CommentListReq": {
+      "type": "object",
+      "title": "CommentListReq"
+    },
+    "FeedsListReply": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        }
+      },
+      "title": "FeedsListReply"
+    },
+    "FeedsListReq": {
+      "type": "object",
+      "properties": {
+        "period": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "FeedsListReq"
+    },
+    "LikeReply": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "address_list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "LikeReply",
+      "required": [
+        "address_list"
+      ]
+    },
+    "LikeReq": {
+      "type": "object",
+      "title": "LikeReq"
+    },
+    "MetricContractReply": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        }
+      },
+      "title": "MetricContractReply"
+    },
+    "MetricTokenReply": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        }
+      },
+      "title": "MetricTokenReply"
+    },
+    "NotificationReply": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        }
+      },
+      "title": "NotificationReply"
+    },
+    "ReplyStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        }
+      },
+      "title": "ReplyStatus",
+      "required": [
+        "code",
+        "msg"
+      ]
+    },
+    "SearchInfo": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "score": {
+          "type": "number",
+          "format": "float"
+        }
+      },
+      "title": "SearchInfo",
+      "required": [
+        "address",
+        "score"
+      ]
+    },
+    "SearchReply": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "search_info": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SearchInfo"
+          }
+        }
+      },
+      "title": "SearchReply",
+      "required": [
+        "search_info"
+      ]
+    },
+    "SearchReq": {
+      "type": "object",
+      "properties": {
+        "q": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "contract",
+            "token",
+            "address",
+            "all"
+          ],
+          "default": "all"
+        }
+      },
+      "title": "SearchReq",
+      "required": [
+        "q",
+        "type"
+      ]
+    },
+    "SocialInfo": {
+      "type": "object",
+      "properties": {
+        "social_type": {
+          "type": "string",
+          "enum": [
+            "[twitter]"
+          ]
+        },
+        "uuid": {
+          "type": "string"
+        }
+      },
+      "title": "SocialInfo",
+      "required": [
+        "social_type",
+        "uuid"
+      ]
+    },
+    "UserFollowerReply": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserInfo"
+          }
+        }
+      },
+      "title": "UserFollowerReply",
+      "required": [
+        "users"
+      ]
+    },
+    "UserFollowerReq": {
+      "type": "object",
+      "title": "UserFollowerReq"
+    },
+    "UserFollowingReply": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserInfo"
+          }
+        }
+      },
+      "title": "UserFollowingReply",
+      "required": [
+        "users"
+      ]
+    },
+    "UserFollowingReq": {
+      "type": "object",
+      "title": "UserFollowingReq"
+    },
+    "UserInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "walletAddress": {
+          "type": "string"
+        },
+        "primaryWalletAddress": {
+          "type": "string"
+        },
+        "state": {
+          "type": "integer",
+          "format": "int32",
+          "default": "0"
+        },
+        "following_count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "follower_count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "social": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SocialInfo"
+          }
+        }
+      },
+      "title": "UserInfo",
+      "required": [
+        "id",
+        "username",
+        "email",
+        "walletAddress",
+        "primaryWalletAddress",
+        "state",
+        "following_count",
+        "follower_count",
+        "social"
+      ]
+    },
+    "UserInfoReply": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "default": "0"
+        },
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "walletAddress": {
+          "type": "string"
+        },
+        "primaryWalletAddress": {
+          "type": "string"
+        },
+        "state": {
+          "type": "integer",
+          "format": "int32",
+          "default": "0"
+        },
+        "following_count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "follower_count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "social": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SocialInfo"
+          }
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "access_token": {
+          "type": "string"
+        }
+      },
+      "title": "UserInfoReply",
+      "required": [
+        "code",
+        "msg"
+      ]
+    },
+    "UserLoginReq": {
+      "type": "object",
+      "properties": {
+        "login_type": {
+          "type": "string",
+          "enum": [
+            "wallet",
+            "twitter"
+          ],
+          "default": "wallet"
+        },
+        "wallet_address": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "WalletSign": {
+          "type": "string"
+        },
+        "nonce": {
+          "type": "string"
+        },
+        "social_type": {
+          "type": "string",
+          "enum": [
+            "[twitter]"
+          ]
+        },
+        "social_id": {
+          "type": "string"
+        }
+      },
+      "title": "UserLoginReq",
+      "required": [
+        "login_type"
+      ]
+    },
+    "UserSettingReq": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "walletAddress": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "primaryWalletAddress": {
+          "type": "string"
+        }
+      },
+      "title": "UserSettingReq"
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

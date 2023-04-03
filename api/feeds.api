@@ -1,0 +1,20 @@
+type (
+    FeedsListReq {
+        Period int64 `json:"period,optional"`
+    }
+    FeedsListReply {
+        ReplyStatus
+    }
+)
+
+@server(
+    prefix: api/v1
+    group: feeds
+    middleware: Auth
+)
+
+service loopx-api {
+    @doc "Returns list of feeds of a specified user ID in a period"
+    @handler list
+    get /feeds/list(FeedsListReq) returns (FeedsListReply)
+}

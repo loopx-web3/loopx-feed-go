@@ -1,0 +1,44 @@
+type (
+    CommentInfo {
+        Id int64 `json:"id"`
+        TopicId int64 `json:"topic_id"`
+        TopicType int64 `json:"topic_type,options=contract|token|feed|all"`
+        ReplyId int64 `json:"reply_id"`
+        ReplyType int64 `json:"reply_type,options=comment|reply"`
+        FromUser string `json:"from_user"`
+        Content string `json:"content"`
+        LikeCount int64 `json:"like_count"`
+        Date int64 `json:"date"`
+    }
+    CommentListReq {
+        TopicId string `path:"topic_id"`
+        TopicType string `path:"topic_type"`
+    }
+    CommentDeleteReq {
+        comment_id string `path:"comment_id"`
+    }
+    CommentListReply {
+        ReplyStatus
+        comments []CommentInfo `json:"comments"`
+    }
+)
+
+@server(
+    prefix: api/v1
+    group: comment
+    middleware: Auth
+)
+
+service loopx-api {
+    @doc "Returns comment list the specified user ID"
+    @handler read
+    get /comment/:topic_id/:topic_type(CommentListReq) returns (CommentListReply)
+
+    @doc "Allows a user ID to comment a contract, token or feed"
+    @handler update
+    post /comment/:topic_id/:topic_type(CommentListReq) returns (ReplyStatus)
+
+    @doc "Allows a user ID to delete a comment"
+    @handler delete
+    delete /comment/:comment_id (CommentDeleteReq) returns (ReplyStatus)
+}

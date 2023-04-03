@@ -1,0 +1,36 @@
+type (
+    LikeReq {
+        Uuid string `path:"id"`
+        Type string `path:"type,options=contract|token|feed|all"`
+    }
+    LikeReply {
+        ReplyStatus
+        Type string `path:"type,options=contract|token|feed|all"`
+        AddressList []string `json:"address_list"`
+    }
+    MetricContractReply {
+        ReplyStatus
+    }
+    MetricTokenReply {
+        ReplyStatus
+    }
+)
+
+@server(
+    prefix: api/v1
+    group: like
+    middleware: Auth
+)
+service loopx-api {
+    @doc "Return information about a User’s liking."
+    @handler read
+    get /user/like/:id/:type(LikeReq) returns (LikeReply)
+
+    @doc "Allows a user ID to like a contract, token or feed"
+    @handler update
+    post /user/like/:id/:type(LikeReq) returns (ReplyStatus)
+
+    @doc "Allows a user ID to like a contract, token or feed"
+    @handler delete
+    delete /user/like/:id/:type(LikeReq) returns (ReplyStatus)
+}

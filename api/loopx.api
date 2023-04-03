@@ -1,0 +1,15 @@
+syntax = "v1"
+
+info(
+	title: "LoopX Backend"
+	desc: "LoopX Backend For user center, Feed and Discover"
+	author: "Benson Yan"
+	email: "benson@deltafi.ai"
+	version: "v1.0.0"
+)
+
+import "user.api"
+import "like.api"
+import "feeds.api"
+import "comment.api"
+import "search.api"

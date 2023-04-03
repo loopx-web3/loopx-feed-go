@@ -1,0 +1,122 @@
+type (
+    SocialInfo {
+        SocialType string `json:"social_type,options=[twitter]"`
+        Uuid string `json:"uuid"`
+    }
+    UserInfo {
+        Id int64 `json:"id,default=0"`
+        Username string `json:"username"`
+        Email string `json:"email"`
+        Avatar string `json:"avatar,optional"`
+        WalletAddress string `json:"walletAddress"`
+        PrimaryWalletAddress string `json:"primaryWalletAddress"`
+        State int `json:"state,default=0"`
+        FollowingCount int `json:"following_count"`
+        FollowerCount int `json:"follower_count"`
+        Social []SocialInfo `json:"social"`
+    }
+    ReplyStatus {
+        Code int `json:"code"`
+        Msg string `json:"msg"`
+    }
+)
+
+type (
+    UserLoginReq {
+        LoginType string `form:"login_type,options=wallet|twitter,default=wallet"`
+        WalletAddress string `form:"wallet_address,optional"`
+        Email string `form:"email,optional"`
+        WalletSign string `header:"wallet_sign,optional"`
+        Nonce string `form:"nonce,optional"`
+        SocialType string `form:"social_type,options=[twitter],optional"`
+        SocialId string `form:"social_id,optional"`
+    }
+    UserInfoReply {
+        UserInfo
+        Code int `json:"code"`
+        Msg int `json:"msg"`
+        AccessToken string `json:"access_token,omitempty"`
+    }
+    CaptchaReq {
+        WalletAddress string `json:"walletAddress"`
+        Timestamp int64 `json:"ts"`
+    }
+    CaptchaReply {
+        ReplyStatus
+        Nonce string `json:"nonce"`
+    }
+    AccountReq {
+        WalletAddress string `path:"walletAddress"`
+    }
+    UserSettingReq {
+        Username string `json:"username,optional"`
+        WalletAddress string `json:"walletAddress,optional"`
+        Email string `json:"email,optional"`
+        Avatar string `json:"avatar,optional"`
+        PrimaryWalletAddress string `json:"primaryWalletAddress,optional"`
+    }
+    NotificationReply {
+        ReplyStatus
+    }
+	UserFollowingReq {
+        Userid string `path:"user_id"`
+    }
+    UserFollowingReply {
+        ReplyStatus
+        users []UserInfo `json:"users"`
+    }
+    UserFollowerReq {
+        Uuid string `path:"id"`
+    }
+    UserFollowerReply {
+        ReplyStatus
+        users []UserInfo `json:"users"`
+    }
+)
+
+@server(
+    prefix: /api/v1
+    group: user
+    middleware: Auth
+)
+service loopx-api {
+    @doc "user register with wallet, email or social media"
+    @handler Login
+    post /user/login (UserLoginReq) returns (UserInfoReply)
+
+    @doc "user wallet cpatcha, return the sign info and nonce"
+    @handler captcha
+    get /user/captcha(CaptchaReq) returns (CaptchaReply)
+
+    @doc "user logout"
+    @handler logout
+    get /user/logout returns (ReplyStatus)
+
+    @doc "Returns a specified wallet user's public information"
+    @handler account
+    get /user/:walletAddress(AccountReq) returns (UserInfoReply)
+
+    @doc "Returns information about an authorized user."
+    @handler me
+    get /user/me returns (UserInfoReply)
+
+    @doc "Updates the authenticating user's settings"
+    @handler settings
+    post /user/settings (UserSettingReq) returns (UserInfoReply)
+
+    @doc "user info avator upload"
+    @handler avatar
+    post /user/avatar returns (UserInfoReply)
+
+	@doc "Returns a list of users the specified user ID is following"
+	@handler following
+	post /user/:user_id/following(UserFollowingReq) returns (UserFollowingReply)
+
+    @doc "Returns a list of users who are followers of the specified user"
+    @handler follower
+    post /user/:user_id/follower(UserFollowerReq) returns (UserFollowerReply)
+
+    @doc "Return the authenticating user's notication list"
+    @handler notification
+    get /user/notification returns (NotificationReply)
+}

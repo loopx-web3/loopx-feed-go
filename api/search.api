@@ -1,0 +1,26 @@
+type (
+    SearchInfo {
+        Address string `json:"address"`
+        Score float32 `json:"score"`
+    }
+    SearchReq {
+        Query string `form:"q"`
+        Type string `form:"type,options=contract|token|address|all,default=all"`
+    }
+    SearchReply {
+        ReplyStatus
+        SearchInfo []SearchInfo `json:"search_info"`
+    }
+)
+
+@server(
+    prefix: api/v1
+    group: feeds
+    middleware: Auth
+)
+
+service loopx-api {
+    @doc "Returns search info"
+    @handler search
+    get /search(SearchReq) returns (SearchReply)
+}
